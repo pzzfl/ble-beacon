@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">蓝牙信标模拟器</string>
+    <string name="hint_uuid">UUID（如 E2C56DB5-DFFB-48D2-B060-D0F5A71096E0）</string>
+    <string name="hint_major">Major（0-65535）</string>
+    <string name="hint_minor">Minor（0-65535）</string>
+    <string name="hint_power">1 米处参考 RSSI（如 -59）</string>
+    <string name="btn_start">开始广播</string>
+    <string name="btn_stop">停止广播</string>
+    <string name="status_idle">未开始</string>
+</resources>
