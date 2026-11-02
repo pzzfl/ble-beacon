@@ -1,10 +1,18 @@
 # 蓝牙信标模拟器（iBeacon）
 
+![Build APK](https://github.com/pzzfl/ble-beacon/actions/workflows/build.yml/badge.svg)
+
 把安卓手机变成 iBeacon 信标：开启后持续广播标准 iBeacon 帧，iPhone / 安卓的 Beacon 扫描 App 可直接识别。
+
+## 下载
+
+**https://github.com/pzzfl/ble-beacon/releases/latest** → 下载 `ble-beacon-v*.apk`
+
+也可以在仓库 Actions 里手动触发 `Build APK` 工作流，产物在运行记录的 Artifacts 中。
 
 ## 安装
 
-- 文件：`app-release.apk`（用 debug 证书签名，可直接安装）
+- 文件：`ble-beacon-v1.0.apk`（用 debug 证书签名，可直接安装）
 - 手机要求：**Android 5.0+，且支持 BLE 外设广播（peripheral mode）**
 - 安装时允许"未知来源应用"
 
