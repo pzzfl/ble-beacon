@@ -31,6 +31,32 @@
    - iPhone：Locate Beacon、LightBlue
    - 应能看到 UUID/Major/Minor 与实测 RSSI
 
+## 距离优化（v1.1）
+
+信号弱时按顺序排查：
+
+1. **发射档位**：默认"高（最大）"就是 Android 的物理上限（标称 0 dBm），档位只能往下降，不能超过它。
+2. **广播模式**：默认"低延迟（约 100ms）"——同样的功率下，发得越密，扫描端越容易收到。
+3. **长距离模式（LE Coded S=8）**：勾选后改用 LE Coded PHY，链路预算多约 12 dB（自由空间约 2–4 倍距离）。
+   - 需要扫描端支持 **Coded PHY 扩展扫描**（ESP32-C3 / ESP32-S3 / 支持 BLE5 的安卓机都可以）
+   - **iPhone 的 iBeacon 收不到**该模式，只能在安卓 BLE5 扫描器上工作
+4. **摆放位置往往比参数更关键**：车身、卷帘门、金属货架会吃掉 10–30 dB，尽量放在靠近开口处、远离金属的位置，别塞进密闭金属箱。
+
+### ESP32-C3 接收示例（NimBLE / ESP-IDF）
+
+```c
+// 扩展扫描 + Coded PHY，否则只能收到标准模式的帧
+esp_ble_gap_set_ext_scan_params(&(esp_ble_ext_scan_params_t){
+    .own_addr_type = BLE_ADDR_TYPE_PUBLIC,
+    .filter_policy = BLE_SCAN_FILTER_ALLOW_ALL,
+    .scan_duplicate = BLE_SCAN_DUPLICATE_DISABLE,
+    .cfg_mask = ESP_BLE_GAP_EXT_SCAN_CFG_CODE_MASK,
+    .uncoded_cfg = { BLE_SCAN_TYPE_PASSIVE, BLE_SCAN_WINDOW_ALL, 0x50, 0 },
+    .coded_cfg   = { BLE_SCAN_TYPE_PASSIVE, BLE_SCAN_WINDOW_ALL, 0x50, 0 },
+});
+esp_ble_gap_start_ext_scan(0, 0);
+```
+
 ## 帧格式
 
 ```
